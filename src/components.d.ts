@@ -13,6 +13,7 @@ declare module "@vue/runtime-core" {
     BFormInput: typeof import("bootstrap-vue")["BFormInput"];
     BFormSelect: typeof import("bootstrap-vue")["BFormSelect"];
     BFormSelectOption: typeof import("bootstrap-vue")["BFormSelectOption"];
+    BFormTextarea: typeof import("bootstrap-vue")["BFormTextarea"];
     BSelect: typeof import("bootstrap-vue")["BSelect"];
   }
 }

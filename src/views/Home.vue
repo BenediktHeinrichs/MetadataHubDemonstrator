@@ -65,6 +65,12 @@
         >Send Request</b-button
       >
     </div>
+    <div v-if="result">
+      <hr />
+      <b-form-group label="Response" label-for="result">
+        <b-form-textarea id="result" v-model="result" :readonly="true" />
+      </b-form-group>
+    </div>
   </div>
 </template>
 
@@ -81,6 +87,7 @@ export default defineComponent({
       method: null as string | null,
       methods: ["Create", "Read", "Update", "Delete", "List"] as string[],
       path: null as string | null,
+      result: null as string | null,
       selection: null as string | null,
       token: null as string | null,
       type: null as string | null,
@@ -96,6 +103,7 @@ export default defineComponent({
     },
     async send() {
       // TODO: Send the request
+      this.result = "Response";
     },
   },
 });
