@@ -47,21 +47,33 @@
       </b-form-group>
     </div>
     <div v-if="type">
-      <b-form-group label="Input the metadata path" label-for="path">
+      <b-form-group
+        v-if="pathFieldVisible"
+        label="Input the metadata path"
+        label-for="path"
+      >
         <b-form-input
           id="path"
           v-model="path"
           placeholder="Please input a Metadata path"
         />
       </b-form-group>
-      <b-form-group label="Input metadata file" label-for="file">
+      <b-form-group
+        v-if="fileFieldVisible"
+        label="Input metadata file"
+        label-for="file"
+      >
         <b-form-file
           id="file"
           v-model="file"
           placeholder="Please input a Metadata path"
         />
       </b-form-group>
-      <b-button :disabled="!(path && file)" @click="send"
+      <b-button
+        :disabled="
+          !((path || !pathFieldVisible) && (file || !fileFieldVisible))
+        "
+        @click="send"
         >Send Request</b-button
       >
     </div>
@@ -85,14 +97,22 @@ export default defineComponent({
       file: null as null | File,
       mappings: [] as string[],
       method: null as string | null,
-      methods: ["Create", "Read", "Update", "Delete", "List"] as string[],
+      methods: ["Create", "Read", "Update", "Delete", "List"],
       path: null as string | null,
       result: null as string | null,
       selection: null as string | null,
       token: null as string | null,
       type: null as string | null,
-      types: ["Metadata", "Schema"] as string[],
+      types: ["Metadata", "Schema"],
     };
+  },
+  computed: {
+    fileFieldVisible(): boolean {
+      return this.method === "Create" || this.method === "Update";
+    },
+    pathFieldVisible(): boolean {
+      return this.method !== "List";
+    },
   },
   created() {
     this.initialize();
