@@ -1,9 +1,10 @@
 import path from "path";
 import { defineConfig } from "vite";
-import { createVuePlugin as Vue2 } from "vite-plugin-vue2";
+import vue from "@vitejs/plugin-vue2";
 import Components from "unplugin-vue-components/vite";
 import ScriptSetup from "unplugin-vue2-script-setup/vite";
-import { BootstrapVueResolver } from "./src/plugins/bootstrap-vue-resolver";
+
+import { BootstrapVueResolver } from "unplugin-vue-components/resolvers";
 
 const config = defineConfig({
   resolve: {
@@ -18,7 +19,7 @@ const config = defineConfig({
   },
 
   plugins: [
-    Vue2(),
+    vue(),
     ScriptSetup(),
     Components({
       dts: "src/components.d.ts",

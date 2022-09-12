@@ -92,6 +92,7 @@ import { defineComponent } from "vue-demi";
 import { receiveMappings } from "@/requests/rest-client";
 
 export default defineComponent({
+  name: "HomeView",
   data() {
     return {
       file: null as null | File,
