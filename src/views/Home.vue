@@ -59,6 +59,17 @@
         />
       </b-form-group>
       <b-form-group
+        v-if="method === 'Update'"
+        label="Input the etag"
+        label-for="etag"
+      >
+        <b-form-input
+          id="etag"
+          v-model="etag"
+          placeholder="Please input a etag"
+        />
+      </b-form-group>
+      <b-form-group
         v-if="fileFieldVisible"
         label="Input metadata file"
         label-for="file"
@@ -89,21 +100,30 @@
 <script lang="ts">
 import { defineComponent } from "vue-demi";
 
-import { receiveMappings } from "@/requests/rest-client";
+import {
+  createMetadata,
+  createSchema,
+  getMetadata,
+  getSchema,
+  receiveMappings,
+  updateMetadata,
+  updateSchema,
+} from "@/requests/rest-client";
 
 export default defineComponent({
   name: "HomeView",
   data() {
     return {
+      etag: undefined as string | undefined,
       file: null as null | File,
       mappings: [] as string[],
-      method: null as string | null,
+      method: null as "Create" | "Read" | "Update" | "Delete" | "List" | null,
       methods: ["Create", "Read", "Update", "Delete", "List"],
       path: null as string | null,
       result: null as string | null,
       selection: null as string | null,
       token: null as string | null,
-      type: null as string | null,
+      type: null as "Metadata" | "Schema" | null,
       types: ["Metadata", "Schema"],
     };
   },
@@ -124,7 +144,88 @@ export default defineComponent({
     },
     async send() {
       // TODO: Send the request
-      this.result = "Response";
+      if (
+        this.selection &&
+        this.type &&
+        this.token &&
+        (this.method === "List" || this.path)
+      ) {
+        const clientId = `${this.selection.toLowerCase()}_${this.type}_ID`;
+        switch (this.method) {
+          case "Create":
+            if (this.file) {
+              const content = await this.file.text();
+              if (this.type === "Metadata") {
+                this.result = await createMetadata({
+                  clientId,
+                  id: this.path!,
+                  token: this.token,
+                  mimetype: this.file.type,
+                  metadata: content,
+                });
+              } else {
+                this.result = await createSchema({
+                  clientId,
+                  id: this.path!,
+                  token: this.token,
+                  mimetype: this.file.type,
+                  schema: content,
+                });
+              }
+            }
+            break;
+          case "Read":
+            if (this.type === "Metadata") {
+              this.result = await getMetadata({
+                clientId,
+                id: this.path!,
+                token: this.token,
+              });
+            } else {
+              this.result = await getSchema({
+                clientId,
+                id: this.path!,
+                token: this.token,
+              });
+            }
+            break;
+          case "Update":
+            if (this.file) {
+              const content = await this.file.text();
+              if (this.type === "Metadata") {
+                this.result = await updateMetadata({
+                  clientId,
+                  id: this.path!,
+                  token: this.token,
+                  mimetype: this.file.type,
+                  metadata: content,
+                  etag: this.etag,
+                });
+              } else {
+                this.result = await updateSchema({
+                  clientId,
+                  id: this.path!,
+                  token: this.token,
+                  mimetype: this.file.type,
+                  schema: content,
+                  etag: this.etag,
+                });
+              }
+            }
+            break;
+          case "Delete":
+            this.result = "Not Implemented";
+            break;
+          case "List":
+            this.result = "Not Implemented";
+            break;
+          default:
+            this.result = "No Case";
+            break;
+        }
+      } else {
+        this.result = "Application Error";
+      }
     },
   },
 });
