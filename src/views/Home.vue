@@ -110,8 +110,15 @@ import {
   updateSchema,
 } from "@/requests/rest-client";
 
+import useMainStore from "@/store";
+
 export default defineComponent({
   name: "HomeView",
+  setup() {
+    const mainStore = useMainStore();
+
+    return { mainStore };
+  },
   data() {
     return {
       etag: undefined as string | undefined,
@@ -133,6 +140,18 @@ export default defineComponent({
     },
     pathFieldVisible(): boolean {
       return this.method !== "List";
+    },
+  },
+  watch: {
+    selection() {
+      if (this.selection) {
+        this.token = this.mainStore.getToken(this.selection);
+      }
+    },
+    token() {
+      if (this.selection && this.token) {
+        this.mainStore.storeToken(this.selection, this.token);
+      }
     },
   },
   created() {
