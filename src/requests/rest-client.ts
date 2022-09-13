@@ -4,6 +4,7 @@ import {
   Content,
   MappingControllerApiFactory,
   Rest4DoipControllerApiFactory,
+  Title,
 } from "./metadataHub";
 
 const metadataHubUrl = "http://d-sp23.devlef.campus.rwth-aachen.de:8080";
@@ -49,16 +50,17 @@ async function wrapRequest(
     clientId: clientId,
     datacite: {
       publisher: "NFDI4Ing",
-      titles: new Set([
+      titles: [
         {
           title: id,
           titleType: "Other",
         },
-      ]),
+        // Type Conversion since otherwise the request becomes weird
+      ] as unknown as Set<Title>,
       formats:
         elements &&
         elements.some((element) => element.type === "application/json")
-          ? new Set(["JSON"])
+          ? (["JSON"] as unknown as Set<string>)
           : undefined,
     },
     elements: elements,

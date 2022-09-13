@@ -151,6 +151,11 @@ export default defineComponent({
         (this.method === "List" || this.path)
       ) {
         const clientId = `${this.selection.toLowerCase()}_${this.type}_ID`;
+        let id = this.path;
+        if (id) {
+          id = id.replace("@", "#");
+          id = id.replace("=", "\\u003d");
+        }
         switch (this.method) {
           case "Create":
             if (this.file) {
@@ -158,7 +163,7 @@ export default defineComponent({
               if (this.type === "Metadata") {
                 this.result = await createMetadata({
                   clientId,
-                  id: this.path!,
+                  id: id!,
                   token: this.token,
                   mimetype: this.file.type,
                   metadata: content,
@@ -166,7 +171,7 @@ export default defineComponent({
               } else {
                 this.result = await createSchema({
                   clientId,
-                  id: this.path!,
+                  id: id!,
                   token: this.token,
                   mimetype: this.file.type,
                   schema: content,
@@ -178,13 +183,13 @@ export default defineComponent({
             if (this.type === "Metadata") {
               this.result = await getMetadata({
                 clientId,
-                id: this.path!,
+                id: id!,
                 token: this.token,
               });
             } else {
               this.result = await getSchema({
                 clientId,
-                id: this.path!,
+                id: id!,
                 token: this.token,
               });
             }
@@ -195,7 +200,7 @@ export default defineComponent({
               if (this.type === "Metadata") {
                 this.result = await updateMetadata({
                   clientId,
-                  id: this.path!,
+                  id: id!,
                   token: this.token,
                   mimetype: this.file.type,
                   metadata: content,
@@ -204,7 +209,7 @@ export default defineComponent({
               } else {
                 this.result = await updateSchema({
                   clientId,
-                  id: this.path!,
+                  id: id!,
                   token: this.token,
                   mimetype: this.file.type,
                   schema: content,
