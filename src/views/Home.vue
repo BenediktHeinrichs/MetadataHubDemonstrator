@@ -91,7 +91,12 @@
     <div v-if="result">
       <hr />
       <b-form-group label="Response" label-for="result">
-        <b-form-textarea id="result" v-model="result" :readonly="true" />
+        <b-form-textarea
+          id="result"
+          v-model="result"
+          :readonly="true"
+          rows="5"
+        />
       </b-form-group>
     </div>
   </div>
@@ -137,6 +142,21 @@ export default defineComponent({
   computed: {
     fileFieldVisible(): boolean {
       return this.method === "Create" || this.method === "Update";
+    },
+    fileType(): string {
+      if (this.file && this.file.type) {
+        return this.file.type;
+      }
+      if (this.file) {
+        if (this.file.name.endsWith(".ttl")) {
+          return "text/turtle";
+        } else if (this.file.name.endsWith(".json")) {
+          return "application/json";
+        } else if (this.file.name.endsWith(".xml")) {
+          return "application/xml";
+        }
+      }
+      return "application/json";
     },
     pathFieldVisible(): boolean {
       return this.method !== "List";
@@ -184,7 +204,7 @@ export default defineComponent({
                   clientId,
                   id: id!,
                   token: this.token,
-                  mimetype: this.file.type,
+                  mimetype: this.fileType,
                   metadata: content,
                 });
               } else {
@@ -192,7 +212,7 @@ export default defineComponent({
                   clientId,
                   id: id!,
                   token: this.token,
-                  mimetype: this.file.type,
+                  mimetype: this.fileType,
                   schema: content,
                 });
               }
@@ -221,7 +241,7 @@ export default defineComponent({
                   clientId,
                   id: id!,
                   token: this.token,
-                  mimetype: this.file.type,
+                  mimetype: this.fileType,
                   metadata: content,
                   etag: this.etag,
                 });
@@ -230,7 +250,7 @@ export default defineComponent({
                   clientId,
                   id: id!,
                   token: this.token,
-                  mimetype: this.file.type,
+                  mimetype: this.fileType,
                   schema: content,
                   etag: this.etag,
                 });
