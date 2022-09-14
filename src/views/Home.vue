@@ -193,7 +193,6 @@ export default defineComponent({
         let id = this.path;
         if (id) {
           id = id.replace("@", "#");
-          id = id.replace("=", "\\u003d");
         }
         switch (this.method) {
           case "Create":
