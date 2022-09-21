@@ -1,0 +1,12 @@
+{
+    "search.exclude": {
+      "**/.yarn": true,
+      "**/.pnp.*": true
+    },
+    "typescript.tsdk": "../../.yarn/sdks/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "vetur.experimental.templateInterpolationService": false,
+    "cSpell.words": [
+      "vite"
+    ]
+}
