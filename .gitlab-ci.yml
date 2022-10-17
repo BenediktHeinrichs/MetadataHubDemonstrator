@@ -1,0 +1,20 @@
+include:
+  - project: coscine/tools/gitlab-ci-templates
+    file: 
+      - /docker-runner.yml
+      - /nodejs.yml
+
+stages:
+  - build
+# there are more stages in the imported file but we only want to import some
+#  - test
+  - publish
+
+build-branch:
+  extends: .build-branch
+
+build-npm-release:
+  extends: .build-npm-release
+
+publish-gitlab:
+  extends: .publish-gitlab-release
