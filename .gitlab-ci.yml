@@ -20,6 +20,9 @@ build-branch:
     - export NODE_OPTIONS="--openssl-legacy-provider --max-old-space-size=8192"
     # make sure to use yarn2
     - yarn set version berry
+    # copy the workspace lock file to be recognized by yarn
+    - touch yarn.lock-workspace
+    - cp yarn.lock-workspace yarn.lock
     # always install dependencies, will come from cache and is usually fast
     - yarn install
   script:
