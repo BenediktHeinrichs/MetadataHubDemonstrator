@@ -14,6 +14,9 @@ build-branch:
     - env:docker
   # use node latest for all jobs
   image: node:18.4.0
+  variables:
+    # temporary fix: https://github.com/renovatebot/renovate/discussions/9481#discussioncomment-660412
+    YARN_ENABLE_IMMUTABLE_INSTALLS: "false"
   stage: build
   before_script:
     # NodeJS Error Workaround https://github.com/webpack/webpack/issues/14532#issuecomment-947012063 & https://stackoverflow.com/questions/69692842/error0308010cdigital-envelope-routinesunsupported
