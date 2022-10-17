@@ -1,8 +1,3 @@
-include:
-  - project: coscine/tools/gitlab-ci-templates
-    file: 
-      - /nodejs.yml
-
 # ensure that a docker runner is used
 default:
   # this is actually quite bad since in ci arrays are always overwritten.
@@ -12,15 +7,29 @@ default:
 
 stages:
   - build
-# there are more stages in the imported file but we only want to import some
-#  - test
-  - publish
 
 build-branch:
-  extends: .build-branch
-
-build-npm-release:
-  extends: .build-npm-release
-
-publish-gitlab:
-  extends: .publish-gitlab-release
+  # make sure to use a docker runner for all jobs
+  tags:
+    - env:docker
+  # use node latest for all jobs
+  image: node:18.4.0
+  stage: build
+  before_script:
+    # NodeJS Error Workaround https://github.com/webpack/webpack/issues/14532#issuecomment-947012063 & https://stackoverflow.com/questions/69692842/error0308010cdigital-envelope-routinesunsupported
+    - export NODE_OPTIONS="--openssl-legacy-provider --max-old-space-size=8192"
+    # make sure to use yarn2
+    - yarn set version berry
+    # always install dependencies, will come from cache and is usually fast
+    - yarn install
+  script:
+    - yarn run build
+  artifacts:
+    # all build results are expected to be in the `dist` folder
+    paths:
+      - dist
+    expire_in: 1 week
+  only:
+    # Do not run for semver tags by the bot
+    variables:
+      - $CI_COMMIT_TAG !~ /v[0-9]*\.[0-9]*\.[0-9]*/ && $GITLAB_USER_ID != $GIT_BOT_USER_ID
