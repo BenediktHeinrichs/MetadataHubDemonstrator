@@ -1,8 +1,14 @@
 include:
   - project: coscine/tools/gitlab-ci-templates
     file: 
-      - /docker-runner.yml
       - /nodejs.yml
+
+# ensure that a docker runner is used
+default:
+  # this is actually quite bad since in ci arrays are always overwritten.
+  # it is likely better to add that line by hand!
+  tags:
+    - env:docker
 
 stages:
   - build
