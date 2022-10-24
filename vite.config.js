@@ -34,9 +34,13 @@ const config = defineConfig({
   ],
 
   server: {
+    hmr: {
+      path: (process.env.NODE_ENV === 'production') ? './' : undefined,
+    },
     port: 3339,
     host: true,
   },
+  base: (process.env.NODE_ENV === 'production') ? './' : undefined,
 });
 
 export default config;
