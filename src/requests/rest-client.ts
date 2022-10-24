@@ -7,7 +7,7 @@ import {
   Title,
 } from "./metadataHub";
 
-const metadataHubUrl = "http://d-sp23.devlef.campus.rwth-aachen.de:8080";
+const metadataHubUrl = "https://nfdi4ing.datamanager.kit.edu/turntable";
 
 const mappingApi = MappingControllerApiFactory(
   new Configuration(),
