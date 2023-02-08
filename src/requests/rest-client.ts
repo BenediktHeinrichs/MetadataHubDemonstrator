@@ -158,6 +158,48 @@ export async function getMetadata(configuration: {
   );
 }
 
+export async function searchSchema(configuration: {
+  clientId: string;
+  id: string;
+  token: string;
+}) {
+  return await wrapRequest(
+    "OP_SEARCH",
+    configuration.clientId,
+    configuration.id,
+    configuration.token,
+    [
+      {
+        id: "schema",
+        value: "Any value",
+      },
+    ]
+  );
+}
+
+export async function searchMetadata(configuration: {
+  clientId: string;
+  id: string;
+  token: string;
+}) {
+  return await wrapRequest(
+    "OP_SEARCH",
+    configuration.clientId,
+    configuration.id,
+    configuration.token,
+    [
+      {
+        id: "document",
+        value: "Any value",
+      },
+      {
+        id: "digitalObjectId",
+        value: configuration.id,
+      },
+    ]
+  );
+}
+
 export async function updateSchema(configuration: {
   clientId: string;
   id: string;

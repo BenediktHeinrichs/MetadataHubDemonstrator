@@ -49,13 +49,19 @@
     <div v-if="type">
       <b-form-group
         v-if="pathFieldVisible"
-        label="Input the metadata path"
+        :label="
+          method !== 'Search' ? 'Input the metadata path' : 'Input search query'
+        "
         label-for="path"
       >
         <b-form-input
           id="path"
           v-model="path"
-          placeholder="Please input a Metadata path"
+          :placeholder="
+            method !== 'Search'
+              ? 'Please input a Metadata path'
+              : 'Please input a search query'
+          "
         />
       </b-form-group>
       <b-form-group
@@ -111,6 +117,8 @@ import {
   getMetadata,
   getSchema,
   receiveMappings,
+  searchMetadata,
+  searchSchema,
   updateMetadata,
   updateSchema,
 } from "@/requests/rest-client";
@@ -129,8 +137,15 @@ export default defineComponent({
       etag: undefined as string | undefined,
       file: null as null | File,
       mappings: [] as string[],
-      method: null as "Create" | "Read" | "Update" | "Delete" | "List" | null,
-      methods: ["Create", "Read", "Update", "Delete", "List"],
+      method: null as
+        | "Create"
+        | "Read"
+        | "Update"
+        | "Delete"
+        | "List"
+        | "Search"
+        | null,
+      methods: ["Create", "Read", "Update", "Delete", "List", "Search"],
       path: null as string | null,
       result: null as string | null,
       selection: null as string | null,
@@ -226,6 +241,21 @@ export default defineComponent({
               });
             } else {
               this.result = await getSchema({
+                clientId,
+                id: id!,
+                token: this.token,
+              });
+            }
+            break;
+          case "Search":
+            if (this.type === "Metadata") {
+              this.result = await searchMetadata({
+                clientId,
+                id: id!,
+                token: this.token,
+              });
+            } else {
+              this.result = await searchSchema({
                 clientId,
                 id: id!,
                 token: this.token,
