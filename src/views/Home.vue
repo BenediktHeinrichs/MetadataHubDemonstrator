@@ -159,7 +159,7 @@ export default defineComponent({
       return this.method === "Create" || this.method === "Update";
     },
     fileType(): string {
-      if (this.file && this.file.type) {
+      if (this.file?.type) {
         return this.file.type;
       }
       if (this.file) {
@@ -201,7 +201,7 @@ export default defineComponent({
       if (
         this.selection &&
         this.type &&
-        this.token &&
+        this.token !== null &&
         (this.method === "List" || this.path)
       ) {
         const clientId = `${this.selection.toLowerCase()}_${this.type}_ID`;
