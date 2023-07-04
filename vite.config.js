@@ -16,6 +16,14 @@ const config = defineConfig({
 
   build: {
     minify: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "bootstrap-vue": ["bootstrap-vue"],
+        },
+      },
+    },
+
   },
 
   plugins: [
@@ -35,12 +43,12 @@ const config = defineConfig({
 
   server: {
     hmr: {
-      path: (process.env.NODE_ENV === 'production') ? './' : undefined,
+      path: './',
     },
     port: 3339,
     host: true,
   },
-  base: (process.env.NODE_ENV === 'production') ? './' : undefined,
+  base: './',
 });
 
 export default config;
