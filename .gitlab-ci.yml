@@ -7,6 +7,7 @@ default:
 
 stages:
   - build
+  - pages
 
 build-branch:
   # make sure to use a docker runner for all jobs
@@ -39,3 +40,29 @@ build-branch:
     # Do not run for semver tags by the bot
     variables:
       - $CI_COMMIT_TAG !~ /v[0-9]*\.[0-9]*\.[0-9]*/ && $GITLAB_USER_ID != $GIT_BOT_USER_ID
+
+pages:
+  # make sure to use a docker runner for all jobs
+  tags:
+    - env:docker
+  # use node latest for all jobs
+  image: node:18.4.0
+  variables:
+    # temporary fix: https://github.com/renovatebot/renovate/discussions/9481#discussioncomment-660412
+    YARN_ENABLE_IMMUTABLE_INSTALLS: "false"
+  stage: pages
+  before_script:
+    # make sure to use yarn2
+    - yarn set version berry
+    # always install dependencies, will come from cache and is usually fast
+    - yarn install
+  script:
+    - yarn run build && mv dist public
+  artifacts:
+    # all build results are expected to be in the `public` folder
+    paths:
+      - public
+    expire_in: 1 year
+  only:  
+    refs:
+      - main
