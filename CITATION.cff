@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Heinrichs"
+  given-names: "Benedikt"
+  affiliation: RWTH Aachen
+  email: heinrichs@itc.rwth-aachen.de
+  orcid: "https://orcid.org/0000-0003-3309-5985"
+- family-names: "Hartmann"
+  given-names: "Volker"
+  affiliation: Karlsruhe Institute of Technology
+  email: volker.hartmann@kit.edu
+  orcid: "https://orcid.org/0000-0001-6383-5214"
+title: "Metadata Hub Demonstrator"
+type: software
+abstract: This application is a prototype demonstration of the Metadata Hub.
+version: 1.0.0
+date-released: 2023-12-04
+doi: 
+url: "https://nfdi4ing.datamanager.kit.edu/metadataHub/"
+repository-code:  "https://git.rwth-aachen.de/nfdi4ing/s-3/s-3-3/metadatahubdemonstrator"
+license: Apache-2.0
