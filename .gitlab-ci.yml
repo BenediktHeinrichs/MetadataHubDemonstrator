@@ -14,7 +14,7 @@ build-branch:
   tags:
     - env:docker
   # use node latest for all jobs
-  image: node:18.4.0
+  image: node:20
   variables:
     # temporary fix: https://github.com/renovatebot/renovate/discussions/9481#discussioncomment-660412
     YARN_ENABLE_IMMUTABLE_INSTALLS: "false"
@@ -46,7 +46,7 @@ pages:
   tags:
     - env:docker
   # use node latest for all jobs
-  image: node:18.4.0
+  image: node:20
   variables:
     # temporary fix: https://github.com/renovatebot/renovate/discussions/9481#discussioncomment-660412
     YARN_ENABLE_IMMUTABLE_INSTALLS: "false"
