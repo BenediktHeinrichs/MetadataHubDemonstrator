@@ -4,6 +4,7 @@
     <b-form-group
       label="Select the targeted provider"
       label-for="mappingSelect"
+      class="mb-3"
     >
       <b-form-select id="mappingSelect" v-model="selection" :options="mappings">
         <!-- This slot appears above the options from 'options' prop -->
@@ -16,14 +17,22 @@
     </b-form-group>
     <hr />
     <div v-if="selection">
-      <b-form-group label="Input your User Token" label-for="token">
+      <b-form-group
+        label="Input your User Token"
+        label-for="token"
+        class="mb-3"
+      >
         <b-form-input
           id="token"
           v-model="token"
           placeholder="Please input a Token"
         />
       </b-form-group>
-      <b-form-group label="Select the wanted method" label-for="methodSelect">
+      <b-form-group
+        label="Select the wanted method"
+        label-for="methodSelect"
+        class="mb-3"
+      >
         <b-form-select id="methodSelect" v-model="method" :options="methods">
           <!-- This slot appears above the options from 'options' prop -->
           <template #first>
@@ -35,7 +44,11 @@
       </b-form-group>
     </div>
     <div v-if="method">
-      <b-form-group label="Select the wanted type" label-for="typeSelect">
+      <b-form-group
+        label="Select the wanted type"
+        label-for="typeSelect"
+        class="mb-3"
+      >
         <b-form-select id="typeSelect" v-model="type" :options="types">
           <!-- This slot appears above the options from 'options' prop -->
           <template #first>
@@ -53,6 +66,7 @@
           method !== 'Search' ? 'Input the metadata path' : 'Input search query'
         "
         label-for="path"
+        class="mb-3"
       >
         <b-form-input
           id="path"
@@ -68,6 +82,7 @@
         v-if="method === 'Update'"
         label="Input the etag"
         label-for="etag"
+        class="mb-3"
       >
         <b-form-input
           id="etag"
@@ -79,6 +94,7 @@
         v-if="fileFieldVisible"
         label="Input metadata file"
         label-for="file"
+        class="mb-3"
       >
         <b-form-file
           id="file"
@@ -96,7 +112,7 @@
     </div>
     <div v-if="result">
       <hr />
-      <b-form-group label="Response" label-for="result">
+      <b-form-group label="Response" label-for="result" class="mb-3">
         <b-form-textarea
           id="result"
           v-model="result"
@@ -109,8 +125,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue-demi";
-
 import {
   createMetadata,
   createSchema,

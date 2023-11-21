@@ -12,12 +12,12 @@ const metadataHubUrl = "https://nfdi4ing.datamanager.kit.edu/turntable";
 const mappingApi = MappingControllerApiFactory(
   new Configuration(),
   metadataHubUrl,
-  axios
+  axios,
 );
 const rest4doipApi = Rest4DoipControllerApiFactory(
   new Configuration(),
   metadataHubUrl,
-  axios
+  axios,
 );
 
 export async function receiveMappings(): Promise<string[]> {
@@ -27,7 +27,7 @@ export async function receiveMappings(): Promise<string[]> {
     data = data
       .filter((entry) => entry.includes("_"))
       .map((entry) =>
-        entry.includes("_") ? entry.substring(0, entry.indexOf("_")) : entry
+        entry.includes("_") ? entry.substring(0, entry.indexOf("_")) : entry,
       )
       .map((entry) => entry.charAt(0).toUpperCase() + entry.slice(1));
     data = [...new Set(data)];
@@ -44,7 +44,7 @@ async function wrapRequest(
   id: string,
   token: string,
   elements: Content[] | undefined = undefined,
-  etag: string | undefined = undefined
+  etag: string | undefined = undefined,
 ) {
   const response = await rest4doipApi.postDoipOperation(operationId, {
     clientId: clientId,
@@ -69,7 +69,7 @@ async function wrapRequest(
     targetId: id,
     token: token,
   });
-  return response.data;
+  return JSON.stringify(response.data, null, 2);
 }
 
 export async function createSchema(configuration: {
@@ -90,7 +90,7 @@ export async function createSchema(configuration: {
         type: configuration.mimetype,
         value: configuration.schema,
       },
-    ]
+    ],
   );
 }
 
@@ -112,7 +112,7 @@ export async function createMetadata(configuration: {
         type: configuration.mimetype,
         value: configuration.metadata,
       },
-    ]
+    ],
   );
 }
 
@@ -131,7 +131,7 @@ export async function getSchema(configuration: {
         id: "schema",
         value: "Any value",
       },
-    ]
+    ],
   );
 }
 
@@ -154,7 +154,7 @@ export async function getMetadata(configuration: {
         id: "digitalObjectId",
         value: configuration.id,
       },
-    ]
+    ],
   );
 }
 
@@ -173,7 +173,7 @@ export async function searchSchema(configuration: {
         id: "schema",
         value: "Any value",
       },
-    ]
+    ],
   );
 }
 
@@ -196,7 +196,7 @@ export async function searchMetadata(configuration: {
         id: "digitalObjectId",
         value: configuration.id,
       },
-    ]
+    ],
   );
 }
 
@@ -220,7 +220,7 @@ export async function updateSchema(configuration: {
         value: configuration.schema,
       },
     ],
-    configuration.etag
+    configuration.etag,
   );
 }
 
@@ -244,6 +244,6 @@ export async function updateMetadata(configuration: {
         value: configuration.metadata,
       },
     ],
-    configuration.etag
+    configuration.etag,
   );
 }

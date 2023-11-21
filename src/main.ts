@@ -1,16 +1,17 @@
-import Vue from "vue";
-import { createApp, h } from "vue-demi";
+import { createApp, h } from "vue";
 import App from "@/App.vue";
 
-import "@/plugins/bootstrap-vue";
+import BootstrapVueNext from "@/plugins/bootstrap-vue-next";
 import pinia from "@/plugins/pinia";
 
-Vue.config.productionTip = false;
-Vue.config.devtools = true;
+import createCustomRouter from "@/router";
 
 const app = createApp({
-  pinia,
   render: () => h(App),
 });
+
+app.use(createCustomRouter());
+app.use(BootstrapVueNext);
+app.use(pinia);
 
 app.mount("#app");
